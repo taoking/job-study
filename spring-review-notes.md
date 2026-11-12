@@ -36,7 +36,7 @@
 
 **知识点详解**
 - 三级缓存：一级单例池、二级早期引用、三级工厂。
-- 解决条件：单例、字段注入时可解决，构造器注入无法解决。
+- Spring 部分历史版本在满足条件时能提前暴露单例引用以处理 setter/字段注入循环依赖；构造器循环依赖无法按此机制解决。Spring Boot 2.6+ 默认禁止循环引用，不应依赖该机制作为常规设计。
 - 代理对象与循环依赖：AOP代理的时机影响。
 
 **面试点**
@@ -74,7 +74,7 @@
 - 传播行为：REQUIRED、REQUIRES_NEW、NESTED等。
 - 隔离级别：读已提交、可重复读、串行化。
 - 回滚规则：运行时异常默认回滚，受检异常可配置。
-- 事务失效：自调用、final方法、非public方法。
+- 事务代理边界：自调用绕过代理；final 方法不适合 CGLIB 代理增强。非 public 方法是否可被事务拦截取决于 Spring 版本及代理方式，不能一概判断失效。
 
 **面试点**
 - 为什么自调用导致事务失效
@@ -111,7 +111,7 @@
 - 自动配置原理：EnableAutoConfiguration与条件注解。
 - 外部化配置：application.yml与Profile。
 - Actuator：健康检查、指标暴露。
-- 自定义Starter：自动配置类与spring.factories注册。
+- 自定义 Starter：Spring Boot 2 传统使用 spring.factories 注册自动配置；Spring Boot 3 使用 META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports。
 
 **面试点**
 - 自动配置生效条件
@@ -270,7 +270,7 @@
 ## 1) @Transactional生效条件
 答题要点：
 - 需要通过Spring代理调用生效，内部自调用不生效。
-- 方法需为public，final方法无法被代理增强。
+- public 方法最稳妥；Spring Framework 6 起，类代理默认可支持 protected / package-private 事务方法；接口代理通常要求 public 方法。final 方法不能被 CGLIB 覆盖增强，需结合代理模式判断。
 - Bean必须由Spring管理，且代理模式匹配（JDK/CGLIB）。
 
 追问清单：
@@ -289,7 +289,7 @@
 答题要点：
 - REQUIRED：有事务就加入，无则新建。
 - REQUIRES_NEW：挂起外部事务，创建新事务。
-- NESTED：保存点，外层回滚不一定影响内层。
+- NESTED：通常基于保存点。内层回滚到保存点后外层可以继续；如果外层最终回滚，嵌套工作也随之回滚。是否支持取决于事务管理器和资源。
 - 选择依据：业务隔离与失败可控范围。
 
 追问清单：
