@@ -16,7 +16,7 @@
 - 代理方式：JDK动态代理与CGLIB适用场景
 - 切面顺序与执行链路
 - AOP与事务结合：@Transactional生效条件
-- 代理失效场景：自调用、final方法
+- 代理失效与边界：自调用、final 方法、方法可见性及 JDK/CGLIB 代理和 Spring 版本差异
 
 **Day 3 事务与数据访问**
 - 事务传播行为：REQUIRED/REQUIRES_NEW/NESTED等
@@ -37,7 +37,7 @@
 - 自动配置原理：EnableAutoConfiguration、条件注解
 - 外部化配置与Profile
 - Actuator指标与健康检查
-- 自定义Starter与自动配置扩展
+- 自定义 Starter 与自动配置扩展：对比 Spring Boot 2 的 spring.factories 与 Boot 3 的 AutoConfiguration.imports
 
 **Day 6 Spring生态与中间件**
 - Spring Data：Repository抽象与查询生成
