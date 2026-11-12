@@ -133,7 +133,7 @@
 
 **知识点详解**
 - 线程创建：Thread/Runnable/Callable/Future。
-- synchronized锁升级：偏向锁、轻量级锁、重量级锁。
+- synchronized 的实现与竞争优化随 JDK 变化；偏向锁已在 JDK 15 默认禁用并于 JDK 18 移除，不应作为当前 JDK 通用的必经升级路径。
 - volatile语义：可见性、有序性，不保证复合操作原子性。
 - JMM：happens-before规则，内存屏障。
 - 线程状态与生命周期：BLOCKED/WAITING/TIMED_WAITING。
@@ -190,7 +190,7 @@
 **知识点详解**
 - JVM内存结构：堆、栈、方法区、直接内存。
 - GC算法：标记清除、复制、标记整理。
-- 常见收集器：Serial、Parallel、CMS、G1、ZGC。
+- 常见收集器：Serial、Parallel、G1、ZGC；CMS 为历史方案，已在 JDK 14 移除。讨论实际 GC 策略要标明 JDK 版本。
 - GC日志：Young GC/Full GC原因与指标。
 - 内存泄漏与内存溢出：定位思路。
 
@@ -434,7 +434,7 @@
 **2) synchronized与锁升级**
 答题要点：
 - 本质是对象监视器，进入/退出对应monitorenter/monitorexit。
-- 锁状态随竞争增强而升级，目的是降低无竞争开销。
+- 实际锁路径和优化受 JDK 版本影响；不要将「偏向 → 轻量级 → 重量级」描述为所有版本都会经过的固定流程。
 - 适合短临界区，保证互斥与可见性。
 - 与Lock相比缺少可中断、超时与多条件队列。
 
