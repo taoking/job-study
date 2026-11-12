@@ -21,7 +21,7 @@
 
 **Day 3 并发与JMM（重难点）**
 - 线程创建方式与区别：Thread/Runnable/Callable/Future
-- synchronized与锁升级：偏向锁、轻量级、重量级
+- synchronized与锁实现：对象监视器、轻量级/重量级锁及 JDK 版本差异（偏向锁在新版本已退出）
 - volatile语义：可见性、有序性、禁止指令重排
 - JMM：happens-before规则、内存屏障
 - Lock体系：ReentrantLock、公平锁/非公平锁、Condition
@@ -39,7 +39,7 @@
 
 **Day 5 JVM与性能调优（重难点）**
 - JVM内存结构：堆、栈、方法区、直接内存
-- GC算法与收集器：Serial/Parallel/CMS/G1/ZGC取舍
+- GC算法与收集器：Serial/Parallel/G1/ZGC 及不同 JDK 的选择；CMS 作为历史知识（JDK 14 移除）
 - GC日志分析：Young/Full GC触发原因
 - 内存泄漏与溢出：常见场景与定位手段
 - 性能诊断工具：jstack/jmap/jstat/VisualVM/JFR
